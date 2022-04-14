@@ -1,4 +1,4 @@
 # Server
 
 Server for Magica Duel  
-Team Project for Ajou Univ. Media Software Engineering
+Team Project of Ajou Univ. Media Software Engineering Lecture
