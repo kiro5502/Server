@@ -9,7 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import lombok.Getter;
 
 @Getter
-@MappedSuperclass
+@MappedSuperclass // 자식 클래스에 매칭 정보 제공
 @EntityListeners(AuditingEntityListener.class)
 public class BaseTimeEntity {
 
