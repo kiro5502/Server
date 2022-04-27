@@ -6,10 +6,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ajou.mse.magicaduel.server.controller.dto.ResultResponseDto;
 import com.ajou.mse.magicaduel.server.controller.dto.UserResponseDto;
+import com.ajou.mse.magicaduel.server.controller.dto.UserSignInDto;
 import com.ajou.mse.magicaduel.server.controller.dto.UserSignUpDto;
 import com.ajou.mse.magicaduel.server.controller.dto.UserUpdateNicknameDto;
 import com.ajou.mse.magicaduel.server.service.UserService;
@@ -28,13 +31,23 @@ public class UserController {
     return userService.signUp(requestDto);
   }
 
+  @PostMapping("sign-in")
+  public UserResponseDto signIn(@RequestBody UserSignInDto requestDto) {
+    return userService.signIn(requestDto);
+  }
+
   @PostMapping("update-nickname")
   public UserResponseDto updateNickname(@RequestBody UserUpdateNicknameDto requestDto) {
     return userService.updateNickname(requestDto);
   }
 
-  @GetMapping("{id}")
-  public UserResponseDto findById(@PathVariable Long id) {
-    return userService.findById(id);
+  @GetMapping("check-duplicate-email")
+  public ResultResponseDto checkDuplicateEmail(@RequestParam String email) {
+    return userService.checkDuplicateEmail(email);
+  }
+
+  @GetMapping("check-duplicate-nickname")
+  public ResultResponseDto checkDuplicateNickname(@RequestParam String nickname) {
+    return userService.checkDuplicateNickname(nickname);
   }
 }
