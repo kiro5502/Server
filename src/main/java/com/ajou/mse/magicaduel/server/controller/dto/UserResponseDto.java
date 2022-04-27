@@ -9,8 +9,6 @@ import lombok.Getter;
 public class UserResponseDto {
 
   private Long id;
-  private String email;
-  private String password;
   private String nickname;
   private Integer score;
   private Integer win;
@@ -19,8 +17,6 @@ public class UserResponseDto {
   @Builder
   public UserResponseDto(User entity) {
     this.id = entity.getId();
-    this.email = entity.getEmail();
-    this.password = entity.getPassword();
     this.nickname = entity.getNickname();
     this.score = entity.getScore() != null ? entity.getScore() : 0;
     this.win = entity.getWin() != null ? entity.getWin() : 0;
