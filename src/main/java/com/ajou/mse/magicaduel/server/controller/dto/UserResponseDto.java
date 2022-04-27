@@ -22,8 +22,8 @@ public class UserResponseDto {
     this.email = entity.getEmail();
     this.password = entity.getPassword();
     this.nickname = entity.getNickname();
-    this.score = entity.getScore();
-    this.win = entity.getWin();
-    this.lose = entity.getLose();
+    this.score = entity.getScore() != null ? entity.getScore() : 0;
+    this.win = entity.getWin() != null ? entity.getWin() : 0;
+    this.lose = entity.getLose() != null ? entity.getLose() : 0;
   }
 }

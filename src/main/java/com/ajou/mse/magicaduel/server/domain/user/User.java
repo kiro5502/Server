@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -29,10 +31,13 @@ public class User extends BaseTimeEntity {
 
   private String nickname;
 
+  @ColumnDefault("0")
   private Integer score;
 
+  @ColumnDefault("0")
   private Integer win;
 
+  @ColumnDefault("0")
   private Integer lose;
 
   @Builder
