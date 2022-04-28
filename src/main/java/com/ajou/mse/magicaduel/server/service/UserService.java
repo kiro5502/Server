@@ -1,5 +1,6 @@
 package com.ajou.mse.magicaduel.server.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -7,10 +8,11 @@ import com.ajou.mse.magicaduel.server.controller.dto.ResultResponseDto;
 import com.ajou.mse.magicaduel.server.controller.dto.UserResponseDto;
 import com.ajou.mse.magicaduel.server.controller.dto.UserSignInDto;
 import com.ajou.mse.magicaduel.server.controller.dto.UserSignUpDto;
-import com.ajou.mse.magicaduel.server.controller.dto.UserUpdateNicknameDto;
 import com.ajou.mse.magicaduel.server.domain.user.User;
 import com.ajou.mse.magicaduel.server.domain.user.UserRepository;
 import com.ajou.mse.magicaduel.server.error.exception.DuplicateException;
+import com.ajou.mse.magicaduel.server.error.exception.MismatchException;
+import com.ajou.mse.magicaduel.server.error.exception.NotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,6 +21,8 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
   private final UserRepository userRepository;
+
+  private final PasswordEncoder passwordEncoder;
 
   @Transactional(rollbackFor = Exception.class)
   public UserResponseDto signUp(UserSignUpDto requestDto) {
@@ -32,11 +36,17 @@ public class UserService {
       throw new DuplicateException("Duplicated Nickname");
     }
 
-    return new UserResponseDto(userRepository.save(requestDto.toEntity()));
+    User encryptedUser = encrypt(requestDto);
+    return new UserResponseDto(userRepository.save(encryptedUser));
   }
 
   public UserResponseDto signIn(UserSignInDto requestDto) {
     User user = findByEmail(requestDto.getEmail());
+
+    if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
+      throw new MismatchException("Password Mismatch");
+    }
+
     return new UserResponseDto(user);
   }
 
@@ -48,30 +58,33 @@ public class UserService {
     return new ResultResponseDto(isDuplicateNickname(nickname));
   }
 
-  private boolean isDuplicateEmail(String email) {
+  public boolean isDuplicateEmail(String email) {
     return userRepository.findByEmail(email).isPresent();
   }
 
-  private boolean isDuplicateNickname(String nickname) {
+  public boolean isDuplicateNickname(String nickname) {
     return userRepository.findByNickname(nickname).isPresent();
   }
 
-  @Transactional(rollbackFor = Exception.class)
-  public UserResponseDto updateNickname(UserUpdateNicknameDto requestDto) {
-    User user = findById(requestDto.getId());
-    user.update(requestDto.getNickname());
-
-    return new UserResponseDto(user);
-  }
-
-  private User findByEmail(String email) {
-    User user = userRepository.findByEmail(email)
-        .orElseThrow(() -> new IllegalArgumentException("Not found user email = " + email));
+  public User encrypt(UserSignUpDto requestDto) {
+    String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
+    User user = User.builder()
+        .email(requestDto.getEmail())
+        .password(encodedPassword)
+        .nickname(requestDto.getNickname())
+        .build();
 
     return user;
   }
 
-  private User findById(Long id) {
+  public User findByEmail(String email) {
+    User user = userRepository.findByEmail(email)
+        .orElseThrow(() -> new NotFoundException("Not Found Email"));
+
+    return user;
+  }
+
+  public User findById(Long id) {
     User user = userRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Not found user id = " + id));
 
