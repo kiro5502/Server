@@ -4,7 +4,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
+
 import com.ajou.mse.magicaduel.server.controller.dto.ResultResponseDto;
+import com.ajou.mse.magicaduel.server.controller.dto.SessionUser;
 import com.ajou.mse.magicaduel.server.controller.dto.UserResponseDto;
 import com.ajou.mse.magicaduel.server.controller.dto.UserSignInDto;
 import com.ajou.mse.magicaduel.server.controller.dto.UserSignUpDto;
@@ -21,8 +24,8 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
   private final UserRepository userRepository;
-
   private final PasswordEncoder passwordEncoder;
+  private final HttpSession httpSession;
 
   @Transactional(rollbackFor = Exception.class)
   public UserResponseDto signUp(UserSignUpDto requestDto) {
@@ -46,6 +49,8 @@ public class UserService {
     if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
       throw new MismatchException("Password Mismatch");
     }
+
+    httpSession.setAttribute("user", new SessionUser(user));
 
     return new UserResponseDto(user);
   }
