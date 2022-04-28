@@ -55,4 +55,15 @@ public class User extends BaseTimeEntity {
     this.nickname = nickname;
   }
 
+  public void addScore(int score) {
+    this.score += score;
+  }
+
+  public void win() {
+    this.win++;
+  }
+
+  public void lose() {
+    this.lose++;
+  }
 }
