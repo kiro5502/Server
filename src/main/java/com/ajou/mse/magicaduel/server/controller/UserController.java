@@ -13,7 +13,6 @@ import com.ajou.mse.magicaduel.server.controller.dto.ResultResponseDto;
 import com.ajou.mse.magicaduel.server.controller.dto.UserResponseDto;
 import com.ajou.mse.magicaduel.server.controller.dto.UserSignInDto;
 import com.ajou.mse.magicaduel.server.controller.dto.UserSignUpDto;
-import com.ajou.mse.magicaduel.server.controller.dto.UserUpdateNicknameDto;
 import com.ajou.mse.magicaduel.server.service.UserService;
 import lombok.RequiredArgsConstructor;
 
@@ -33,11 +32,6 @@ public class UserController {
   @PostMapping("sign-in")
   public UserResponseDto signIn(@RequestBody UserSignInDto requestDto) {
     return userService.signIn(requestDto);
-  }
-
-  @PostMapping("update-nickname")
-  public UserResponseDto updateNickname(@RequestBody UserUpdateNicknameDto requestDto) {
-    return userService.updateNickname(requestDto);
   }
 
   @GetMapping("check-duplicate-email")
