@@ -18,13 +18,13 @@ public class ErrorHandler {
     return new ErrorResponse(e.getClass().getSimpleName(), e.getMessage());
   }
 
-  @ResponseStatus(HttpStatus.NOT_FOUND)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler(MismatchException.class)
   public ErrorResponse handleMismatchException(MismatchException e) {
     return new ErrorResponse(e.getClass().getSimpleName(), e.getMessage());
   }
 
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
   @ExceptionHandler(NotFoundException.class)
   public ErrorResponse handleNotFoundException(NotFoundException e) {
     return new ErrorResponse(e.getClass().getSimpleName(), e.getMessage());
