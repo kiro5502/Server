@@ -10,10 +10,8 @@ import lombok.Getter;
 public class SessionUser implements Serializable {
 
   private Long id;
-  private String nickname;
 
   public SessionUser(User user) {
     this.id = user.getId();
-    this.nickname = user.getNickname();
   }
 }
