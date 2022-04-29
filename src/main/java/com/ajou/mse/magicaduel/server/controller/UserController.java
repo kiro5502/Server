@@ -34,12 +34,12 @@ public class UserController {
     return userService.signIn(requestDto);
   }
 
-  @GetMapping("check-duplicate-email")
+  @GetMapping("duplicate-email")
   public ResultResponseDto checkDuplicateEmail(@RequestParam String email) {
     return userService.checkDuplicateEmail(email);
   }
 
-  @GetMapping("check-duplicate-nickname")
+  @GetMapping("duplicate-nickname")
   public ResultResponseDto checkDuplicateNickname(@RequestParam String nickname) {
     return userService.checkDuplicateNickname(nickname);
   }
