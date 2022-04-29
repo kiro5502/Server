@@ -20,6 +20,7 @@ public class BattleService {
 
   private final UserRepository userRepository;
   private final UserService userService;
+  private final RankingService rankingService;
 
   private final HttpSession httpSession;
 
@@ -41,6 +42,10 @@ public class BattleService {
         break;
     }
 
-    return new UserResponseDto(userRepository.save(user));
+    rankingService.setScore(user.getId(), user.getScore());
+
+    Long ranking = rankingService.getRanking(user.getId());
+
+    return new UserResponseDto(userRepository.save(user), ranking);
   }
 }

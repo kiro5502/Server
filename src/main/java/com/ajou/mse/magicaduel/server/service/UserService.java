@@ -24,6 +24,8 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
   private final UserRepository userRepository;
+  private final RankingService rankingService;
+
   private final PasswordEncoder passwordEncoder;
   private final HttpSession httpSession;
 
@@ -40,7 +42,7 @@ public class UserService {
     }
 
     User encryptedUser = encrypt(requestDto);
-    return new UserResponseDto(userRepository.save(encryptedUser));
+    return new UserResponseDto(userRepository.save(encryptedUser), 0L);
   }
 
   public UserResponseDto signIn(UserSignInDto requestDto) {
@@ -50,9 +52,11 @@ public class UserService {
       throw new MismatchException("Password Mismatch");
     }
 
+    Long ranking = rankingService.getRanking(user.getId());
+
     httpSession.setAttribute("user", new SessionUser(user));
 
-    return new UserResponseDto(user);
+    return new UserResponseDto(user, ranking);
   }
 
   public ResultResponseDto checkDuplicateEmail(String email) {
