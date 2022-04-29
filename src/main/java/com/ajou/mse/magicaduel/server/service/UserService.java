@@ -42,7 +42,7 @@ public class UserService {
     }
 
     User encryptedUser = encrypt(requestDto);
-    return new UserResponseDto(userRepository.save(encryptedUser), 0L);
+    return new UserResponseDto(userRepository.save(encryptedUser), 0);
   }
 
   public UserResponseDto signIn(UserSignInDto requestDto) {
@@ -52,7 +52,7 @@ public class UserService {
       throw new MismatchException("Password Mismatch");
     }
 
-    Long ranking = rankingService.getRanking(user.getId());
+    int ranking = rankingService.getRanking(user.getId());
 
     httpSession.setAttribute("user", new SessionUser(user));
 

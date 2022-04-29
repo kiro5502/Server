@@ -44,7 +44,7 @@ public class BattleService {
 
     rankingService.setScore(user.getId(), user.getScore());
 
-    Long ranking = rankingService.getRanking(user.getId());
+    int ranking = rankingService.getRanking(user.getId());
 
     return new UserResponseDto(userRepository.save(user), ranking);
   }

@@ -13,10 +13,10 @@ public class UserResponseDto {
   private Integer score;
   private Integer win;
   private Integer lose;
-  private Long ranking;
+  private Integer ranking;
 
   @Builder
-  public UserResponseDto(User entity, Long ranking) {
+  public UserResponseDto(User entity, int ranking) {
     this.id = entity.getId();
     this.nickname = entity.getNickname();
     this.score = entity.getScore() != null ? entity.getScore() : 0;

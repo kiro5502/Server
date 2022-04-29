@@ -13,13 +13,13 @@ public class RankingService {
 
   private final StringRedisTemplate redisTemplate;
 
-  public Long getRanking(Long userId) {
+  public int getRanking(Long userId) {
     // Ranking starts with 0
     Long ranking = redisTemplate.opsForZSet().reverseRank(Consts.RANKING_KEY, String.valueOf(userId));
     if (ranking == null) {
-      return 0L;
+      return 0;
     }
-    return ranking + 1;
+    return ranking.intValue() + 1;
   }
 
   public void setScore(Long userId, int score) {
