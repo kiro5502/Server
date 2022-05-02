@@ -81,15 +81,15 @@
 						</image>
 					</images>
 				</configuration>
-				<excutions>
-					<excution>
+				<executions>
+					<execution>
 						<id>docker-build</id>
 						<phase>package</phase>
 						<goals>
 							<goal>build</goal>
 						</goals>
-					</excution>
-				</excutions>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
