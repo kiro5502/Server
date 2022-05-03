@@ -18,7 +18,7 @@ class RedisTest {
 	@Test
 	void 레디스_랭킹_테스트() {
 		// given
-		String key = Consts.RANKING_KEY;
+		String key = "TEST_RANKING";
 		Long id = (long) 1;
 
 		// when
