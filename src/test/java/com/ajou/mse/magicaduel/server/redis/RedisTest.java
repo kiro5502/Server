@@ -2,8 +2,6 @@ package com.ajou.mse.magicaduel.server.redis;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.ajou.mse.magicaduel.server.util.Consts;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
