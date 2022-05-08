@@ -13,6 +13,7 @@ public class UserResponseDto {
   private Integer score;
   private Integer win;
   private Integer lose;
+  private Integer draw;
   private Integer ranking;
 
   @Builder
@@ -22,6 +23,7 @@ public class UserResponseDto {
     this.score = entity.getScore() != null ? entity.getScore() : 0;
     this.win = entity.getWin() != null ? entity.getWin() : 0;
     this.lose = entity.getLose() != null ? entity.getLose() : 0;
+    this.draw = entity.getDraw() != null ? entity.getDraw() : 0;
     this.ranking = ranking;
   }
 }

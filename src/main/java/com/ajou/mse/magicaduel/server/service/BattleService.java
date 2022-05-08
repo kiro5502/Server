@@ -34,15 +34,19 @@ public class BattleService {
       case WIN:
         user.win();
         user.addScore(BattleResult.WIN.getScore());
+        rankingService.setScore(user.getId(), user.getScore());
         break;
 
       case LOSE:
         user.lose();
         user.addScore(BattleResult.LOSE.getScore());
+        rankingService.setScore(user.getId(), user.getScore());
+        break;
+
+      case DRAW:
+        user.draw();
         break;
     }
-
-    rankingService.setScore(user.getId(), user.getScore());
 
     int ranking = rankingService.getRanking(user.getId());
 

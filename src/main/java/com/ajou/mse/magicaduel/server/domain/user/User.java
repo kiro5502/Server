@@ -39,16 +39,20 @@ public class User extends BaseTimeEntity {
 
   @ColumnDefault("0")
   private Integer lose;
+  
+  @ColumnDefault("0")
+  private Integer draw;
 
   @Builder
   public User(String email, String password, String nickname, Integer score, Integer win,
-      Integer lose) {
+      Integer lose, Integer draw) {
     this.email = email;
     this.password = password;
     this.nickname = nickname;
     this.score = score;
     this.win = win;
     this.lose = lose;
+    this.draw = draw;
   }
 
   public void update(String nickname) {
@@ -65,5 +69,9 @@ public class User extends BaseTimeEntity {
 
   public void lose() {
     this.lose++;
+  }
+
+  public void draw() {
+    this.draw++;
   }
 }
