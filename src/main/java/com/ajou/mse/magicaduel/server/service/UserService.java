@@ -30,7 +30,7 @@ public class UserService {
   private final HttpSession httpSession;
 
   @Transactional(rollbackFor = Exception.class)
-  public UserResponseDto signUp(UserSignUpDto requestDto) {
+  public ResultResponseDto signUp(UserSignUpDto requestDto) {
     // id 중복체크
     if (isDuplicateEmail(requestDto.getEmail())) {
       throw new DuplicateException("Duplicated Email");
@@ -41,8 +41,7 @@ public class UserService {
       throw new DuplicateException("Duplicated Nickname");
     }
 
-    User encryptedUser = encrypt(requestDto);
-    return new UserResponseDto(userRepository.save(encryptedUser), 0);
+    return new ResultResponseDto(true);
   }
 
   public UserResponseDto signIn(UserSignInDto requestDto) {
