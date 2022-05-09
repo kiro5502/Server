@@ -41,6 +41,9 @@ public class UserService {
       throw new DuplicateException("Duplicated Nickname");
     }
 
+    User encryptedUser = encrypt(requestDto);
+    userRepository.save(encryptedUser);
+
     return new ResultResponseDto(true);
   }
 
