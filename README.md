@@ -38,12 +38,13 @@ Team Project of Ajou Univ. Media Software Engineering Lecture
 
 ## Activity Diagrams
 
-![activityDiagram_lobby](https://user-images.githubusercontent.com/35136024/167684052-656a6501-2926-4dfe-9b25-0208e10c52b1.png)
-![activityDiagram_matching](https://user-images.githubusercontent.com/35136024/167684076-38f74981-9bf9-4ca1-b1d9-a1ae66026e79.png)
+<img src="https://user-images.githubusercontent.com/35136024/167684052-656a6501-2926-4dfe-9b25-0208e10c52b1.png" width="60%">
+<img src="https://user-images.githubusercontent.com/35136024/167684076-38f74981-9bf9-4ca1-b1d9-a1ae66026e79.png" width="30%" align="right">
 
 <br></br>
 
 ## Sequence Diagrams
 
-![sequenceDiagram_spring](https://user-images.githubusercontent.com/35136024/167684399-8fe5941b-25a3-4584-a141-7342ed1b7241.png)  
-![sequenceDiagram_node](https://user-images.githubusercontent.com/35136024/167684548-fc778cc6-6c52-41f7-8fd1-c6415a891f75.png)
+<img src="https://user-images.githubusercontent.com/35136024/167684399-8fe5941b-25a3-4584-a141-7342ed1b7241.png" width="100%">
+
+<img src="https://user-images.githubusercontent.com/35136024/167684548-fc778cc6-6c52-41f7-8fd1-c6415a891f75.png" width="100%">
