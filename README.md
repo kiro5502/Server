@@ -7,6 +7,8 @@ Team Project of Ajou Univ. Media Software Engineering Lecture
 
 ## Database Architecture
 
+## User Table
+
 |    Column     |   Type   | Not Null | Auto Increment |     Key     | Default Value |
 | :-----------: | :------: | :------: | :------------: | :---------: | :-----------: |
 |      id       |  bigint  |    O     |       O        | Primary Key |               |
