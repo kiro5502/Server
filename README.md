@@ -5,6 +5,12 @@ Team Project of Ajou Univ. Media Software Engineering Lecture
 
 <br></br>
 
+## Server Architecture
+
+![serverArchitecture](https://user-images.githubusercontent.com/35136024/167869014-1a88f162-1cfd-4770-9a43-0828498d4443.png)
+
+<br></br>
+
 ## Database Architecture
 
 ## User Table
@@ -32,7 +38,7 @@ Team Project of Ajou Univ. Media Software Engineering Lecture
 
 ## Use-case Diagram
 
-![use-case](https://user-images.githubusercontent.com/35136024/167622869-872fb318-7870-45db-aedd-e0c9aa8532a1.png)
+![use-case](https://user-images.githubusercontent.com/35136024/167869137-02cb29de-02f1-46ef-b34c-2bf33e58d4ef.png)
 
 <br></br>
 
