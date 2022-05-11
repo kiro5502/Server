@@ -48,3 +48,6 @@ Team Project of Ajou Univ. Media Software Engineering Lecture
 ![sequenceDiagram_spring](https://user-images.githubusercontent.com/35136024/167684399-8fe5941b-25a3-4584-a141-7342ed1b7241.png)
 
 ![sequenceDiagram_node](https://user-images.githubusercontent.com/35136024/167684548-fc778cc6-6c52-41f7-8fd1-c6415a891f75.png)
+
+
+min
