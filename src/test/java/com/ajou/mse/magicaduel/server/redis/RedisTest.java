@@ -28,5 +28,6 @@ class RedisTest {
 
 		// then
 		assertEquals(ranking + 1, id);
+		System.out.println();
 	}
 }
