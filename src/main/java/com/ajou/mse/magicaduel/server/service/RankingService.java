@@ -9,6 +9,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import com.ajou.mse.magicaduel.server.controller.dto.RankingDataDto;
 import com.ajou.mse.magicaduel.server.domain.user.User;
 import com.ajou.mse.magicaduel.server.domain.user.UserRepository;
 import com.ajou.mse.magicaduel.server.util.Consts;
@@ -38,33 +39,25 @@ public class RankingService {
 		redisTemplate.opsForZSet().add(Consts.RANKING_KEY, String.valueOf(userId), score);
 	}
 
-	public List<User> ReaderBoardRanking(int start, int end) {
+	public RankingDataDto leaderBoardRanking(int page) {
+
+		int pageStartRanking = 0 + (page - 1) * 10;
+		int pageEndRanking = 9 + (page - 1) * 10;
 
 		List<User> users = new ArrayList<>();
 
-		Set<Long> ranking = redisTemplateLong.opsForZSet().reverseRange(Consts.RANKING_KEY, start, end);
+		Set<Long> ranking = redisTemplateLong.opsForZSet().reverseRange(Consts.RANKING_KEY, pageStartRanking,
+				pageEndRanking);
 
 		for (Long value : ranking) {
 
-			System.out.println(value);
 			Optional<User> finduser = userRepository.findById(value);
 			User user = finduser.get();
-			System.out.println(user.getNickname());
-			System.out.println(user.getScore());
-			System.out.println(user.getWin());
-			System.out.println(user.getLose());
-			System.out.println(user.getDraw());
 
-			users.add(user);
+			User adduser = new User(user.getNickname(), user.getScore(), user.getWin(), user.getLose(), user.getDraw());
+
+			users.add(adduser);
 		}
-		return users;
-	}
-
-	public User PlayerRanking(Long userId) {
-		Optional<User> user = userRepository.findById(userId);
-		User player = user.get();
-
-		return player;
-
+		return new RankingDataDto(users);
 	}
 }

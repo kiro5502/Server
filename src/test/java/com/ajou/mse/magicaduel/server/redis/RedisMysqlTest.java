@@ -4,7 +4,6 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -14,7 +13,6 @@ import com.ajou.mse.magicaduel.server.domain.user.UserRepository;
 import com.ajou.mse.magicaduel.server.service.RankingService;
 
 @SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RedisMysqlTest {
 
 	@Autowired
@@ -60,11 +58,6 @@ public class RedisMysqlTest {
 			System.out.println(value);
 			Optional<User> finduser = userRepository.findById(value);
 			User user = finduser.get();
-			System.out.println(user.getNickname());
-			System.out.println(user.getScore());
-			System.out.println(user.getWin());
-			System.out.println(user.getLose());
-			System.out.println(user.getDraw());
 
 		}
 

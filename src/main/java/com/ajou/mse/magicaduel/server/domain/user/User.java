@@ -10,6 +10,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.ajou.mse.magicaduel.server.domain.BaseTimeEntity;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,57 +22,65 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class User extends BaseTimeEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-  private String email;
+	private String email;
 
-  private String password;
+	private String password;
 
-  private String nickname;
+	private String nickname;
 
-  @ColumnDefault("0")
-  private Integer score;
+	@ColumnDefault("0")
+	private Integer score;
 
-  @ColumnDefault("0")
-  private Integer win;
+	@ColumnDefault("0")
+	private Integer win;
 
-  @ColumnDefault("0")
-  private Integer lose;
-  
-  @ColumnDefault("0")
-  private Integer draw;
+	@ColumnDefault("0")
+	private Integer lose;
 
-  @Builder
-  public User(String email, String password, String nickname, Integer score, Integer win,
-      Integer lose, Integer draw) {
-    this.email = email;
-    this.password = password;
-    this.nickname = nickname;
-    this.score = score;
-    this.win = win;
-    this.lose = lose;
-    this.draw = draw;
-  }
+	@ColumnDefault("0")
+	private Integer draw;
 
-  public void update(String nickname) {
-    this.nickname = nickname;
-  }
+	@Builder
+	public User(String email, String password, String nickname, Integer score, Integer win, Integer lose,
+			Integer draw) {
+		this.email = email;
+		this.password = password;
+		this.nickname = nickname;
+		this.score = score;
+		this.win = win;
+		this.lose = lose;
+		this.draw = draw;
+	}
 
-  public void addScore(int score) {
-    this.score += score;
-  }
+	public User(String nickname, Integer score, Integer win, Integer lose, Integer draw) {
+		this.nickname = nickname;
+		this.score = score;
+		this.win = win;
+		this.lose = lose;
+		this.draw = draw;
+	}
 
-  public void win() {
-    this.win++;
-  }
+	public void update(String nickname) {
+		this.nickname = nickname;
+	}
 
-  public void lose() {
-    this.lose++;
-  }
+	public void addScore(int score) {
+		this.score += score;
+	}
 
-  public void draw() {
-    this.draw++;
-  }
+	public void win() {
+		this.win++;
+	}
+
+	public void lose() {
+		this.lose++;
+	}
+
+	public void draw() {
+		this.draw++;
+	}
 }

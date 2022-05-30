@@ -6,18 +6,24 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import com.ajou.mse.magicaduel.server.domain.user.User;
 import com.ajou.mse.magicaduel.server.domain.user.UserRepository;
+import com.ajou.mse.magicaduel.server.service.RankingService;
 
-public class Ranking {
+@SpringBootTest
+public class RankingServiceTest {
 
 	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
 
 	@Autowired
-	UserRepository userRepository;
+	private UserRepository userRepository;
+
+	@Autowired
+	private RankingService rankingService;
 
 	String key = "TEST_RANKING";
 
@@ -28,27 +34,15 @@ public class Ranking {
 		Set<Long> ranking = redisTemplate.opsForZSet().reverseRange(key, start, end);
 
 		for (Long value : ranking) {
+			int i = 1;
 
 			System.out.println(value);
 			Optional<User> finduser = userRepository.findById(value);
 			User user = finduser.get();
-			System.out.println(user.getNickname());
-			System.out.println(user.getScore());
-			System.out.println(user.getWin());
-			System.out.println(user.getLose());
-			System.out.println(user.getDraw());
 
 			users.add(user);
 		}
 		return users;
-	}
-
-	public User PlayerRanking(long id) {
-		Optional<User> user = userRepository.findById(id);
-		User player = user.get();
-
-		return player;
-
 	}
 
 }
