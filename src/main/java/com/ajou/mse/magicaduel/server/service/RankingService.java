@@ -2,14 +2,15 @@ package com.ajou.mse.magicaduel.server.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
-import org.springframework.data.redis.core.RedisTemplate;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import com.ajou.mse.magicaduel.server.controller.dto.RankingDataDto;
+import com.ajou.mse.magicaduel.server.controller.dto.RankingUser;
+import com.ajou.mse.magicaduel.server.controller.dto.SessionUser;
 import com.ajou.mse.magicaduel.server.domain.user.User;
 import com.ajou.mse.magicaduel.server.domain.user.UserRepository;
 import com.ajou.mse.magicaduel.server.util.Consts;
@@ -21,10 +22,11 @@ import lombok.RequiredArgsConstructor;
 public class RankingService {
 
 	private final StringRedisTemplate redisTemplate;
+	private final HttpSession httpSession;
 
-	private final RedisTemplate<String, Long> redisTemplateLong;
+	private final UserRepository userRepository;
 
-	private UserRepository userRepository;
+	private int rankingPerPage = 10;
 
 	public int getRanking(Long userId) {
 		// Ranking starts with 0
@@ -39,25 +41,33 @@ public class RankingService {
 		redisTemplate.opsForZSet().add(Consts.RANKING_KEY, String.valueOf(userId), score);
 	}
 
-	public RankingDataDto leaderBoardRanking(int page) {
+	public List<RankingUser> getLeaderBoard(int page) {
+		int start = (page - 1) * rankingPerPage;
+		int end = page * rankingPerPage - 1;
 
-		int pageStartRanking = 0 + (page - 1) * 10;
-		int pageEndRanking = 9 + (page - 1) * 10;
+		List<RankingUser> users = new ArrayList<>();
+		Set<String> ranking = redisTemplate.opsForZSet().reverseRange(Consts.RANKING_KEY, start, end);
 
-		List<User> users = new ArrayList<>();
+		for (String id : ranking) {
+			User user = userRepository.findById(Long.parseLong(id))
+					.orElseThrow(() -> new IllegalArgumentException("Not found user id = " + id));
 
-		Set<Long> ranking = redisTemplateLong.opsForZSet().reverseRange(Consts.RANKING_KEY, pageStartRanking,
-				pageEndRanking);
+			RankingUser rankingUser = RankingUser.builder()
+					.nickname(user.getNickname())
+					.score(user.getScore())
+					.win(user.getWin())
+					.lose(user.getLose())
+					.draw(user.getDraw())
+					.build();
 
-		for (Long value : ranking) {
-
-			Optional<User> finduser = userRepository.findById(value);
-			User user = finduser.get();
-
-			User adduser = new User(user.getNickname(), user.getScore(), user.getWin(), user.getLose(), user.getDraw());
-
-			users.add(adduser);
+			users.add(rankingUser);
 		}
-		return new RankingDataDto(users);
+
+		return users;
+	}
+
+	public int getPlayerRanking() {
+		SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
+		return getRanking(sessionUser.getId());
 	}
 }

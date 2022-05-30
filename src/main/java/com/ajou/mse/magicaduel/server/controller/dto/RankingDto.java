@@ -1,6 +1,6 @@
 package com.ajou.mse.magicaduel.server.controller.dto;
 
-import com.ajou.mse.magicaduel.server.domain.user.User;
+import java.util.List;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -8,12 +8,10 @@ import lombok.Getter;
 @Getter
 public class RankingDto {
 
-	private Long id;
-	private int pageNum;
+	private List<RankingUser> users;
 
 	@Builder
-	public RankingDto(User entity, int pageNum) {
-		this.id = entity.getId();
-		this.pageNum = pageNum;
+	public RankingDto(List<RankingUser> users) {
+		this.users = users;
 	}
 }

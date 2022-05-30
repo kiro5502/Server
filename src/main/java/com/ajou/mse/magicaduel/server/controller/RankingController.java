@@ -1,11 +1,10 @@
 package com.ajou.mse.magicaduel.server.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ajou.mse.magicaduel.server.controller.dto.RankingDataDto;
 import com.ajou.mse.magicaduel.server.controller.dto.RankingDto;
 import com.ajou.mse.magicaduel.server.service.RankingService;
 
@@ -18,13 +17,13 @@ public class RankingController {
 
 	private final RankingService rankingService;
 
-	@PostMapping("leader-board")
-	public RankingDataDto loadReaderBoard(@RequestBody RankingDto rankingDto) {
-		return rankingService.leaderBoardRanking(rankingDto.getPageNum());
+	@GetMapping("leader-board")
+	public RankingDto leaderBoard(@RequestParam int page) {
+		return new RankingDto(rankingService.getLeaderBoard(page));
 	}
 
-	@PostMapping("player-ranking")
-	public int playerRankingLoad(@RequestBody RankingDto rankingDto) {
-		return rankingService.getRanking(rankingDto.getId());
+	@GetMapping("player-ranking")
+	public int playerRanking() {
+		return rankingService.getPlayerRanking();
 	}
 }

@@ -56,14 +56,6 @@ public class User extends BaseTimeEntity {
 		this.draw = draw;
 	}
 
-	public User(String nickname, Integer score, Integer win, Integer lose, Integer draw) {
-		this.nickname = nickname;
-		this.score = score;
-		this.win = win;
-		this.lose = lose;
-		this.draw = draw;
-	}
-
 	public void update(String nickname) {
 		this.nickname = nickname;
 	}
