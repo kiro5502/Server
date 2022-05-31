@@ -1,7 +1,11 @@
 # Server
 
 Server for Magica Duel  
-Team Project of Ajou Univ. Media Software Engineering Lecture
+Team Project of Ajou Univ. Media Software Engineering Lecture<br></br>
+
+## RESTful API Document
+
+- [API Docs](https://github.com/AjouMSE/Server/blob/develop/API_Docs.md)
 
 <br></br>
 
