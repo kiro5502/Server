@@ -9,8 +9,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import com.ajou.mse.magicaduel.server.controller.dto.RankingUser;
+import com.ajou.mse.magicaduel.server.controller.dto.LeaderBoardDto;
+import com.ajou.mse.magicaduel.server.controller.dto.RankingDto;
 import com.ajou.mse.magicaduel.server.controller.dto.SessionUser;
+import com.ajou.mse.magicaduel.server.controller.dto.UserResponseDto;
 import com.ajou.mse.magicaduel.server.domain.user.User;
 import com.ajou.mse.magicaduel.server.domain.user.UserRepository;
 import com.ajou.mse.magicaduel.server.util.Consts;
@@ -41,33 +43,26 @@ public class RankingService {
 		redisTemplate.opsForZSet().add(Consts.RANKING_KEY, String.valueOf(userId), score);
 	}
 
-	public List<RankingUser> getLeaderBoard(int page) {
+	public LeaderBoardDto getLeaderBoard(int page) {
 		int start = (page - 1) * rankingPerPage;
 		int end = page * rankingPerPage - 1;
 
-		List<RankingUser> users = new ArrayList<>();
-		Set<String> ranking = redisTemplate.opsForZSet().reverseRange(Consts.RANKING_KEY, start, end);
+		List<UserResponseDto> users = new ArrayList<>();
+		Set<String> rankingList = redisTemplate.opsForZSet().reverseRange(Consts.RANKING_KEY, start, end);
 
-		for (String id : ranking) {
+		int ranking = start + 1;
+		for (String id : rankingList) {
 			User user = userRepository.findById(Long.parseLong(id))
 					.orElseThrow(() -> new IllegalArgumentException("Not found user id = " + id));
 
-			RankingUser rankingUser = RankingUser.builder()
-					.nickname(user.getNickname())
-					.score(user.getScore())
-					.win(user.getWin())
-					.lose(user.getLose())
-					.draw(user.getDraw())
-					.build();
-
-			users.add(rankingUser);
+			users.add(new UserResponseDto(user, ranking++));
 		}
 
-		return users;
+		return new LeaderBoardDto(users);
 	}
 
-	public int getPlayerRanking() {
+	public RankingDto getPlayerRanking() {
 		SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
-		return getRanking(sessionUser.getId());
+		return new RankingDto(getRanking(sessionUser.getId()));
 	}
 }

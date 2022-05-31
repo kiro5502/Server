@@ -1,17 +1,15 @@
 package com.ajou.mse.magicaduel.server.controller.dto;
 
-import java.util.List;
-
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class RankingDto {
 
-	private List<RankingUser> users;
+	private int ranking;
 
 	@Builder
-	public RankingDto(List<RankingUser> users) {
-		this.users = users;
+	public RankingDto(int ranking) {
+		this.ranking = ranking;
 	}
 }
