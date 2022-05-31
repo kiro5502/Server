@@ -164,9 +164,9 @@
 
 ### Response
 
-| Key   | Type                                           | Description                  |
-| ----- | ---------------------------------------------- | ---------------------------- |
-| users | Array\<[UserResponseDto](#user-response-dto)\> | 상위 랭킹 유저들의 정보 배열 |
+| Key   | Type                                               | Description                  |
+| ----- | -------------------------------------------------- | ---------------------------- |
+| users | Array\<[UserResponseDto](#userresponsedto-model)\> | 상위 랭킹 유저들의 정보 배열 |
 
 ## GET - Player Ranking
 
