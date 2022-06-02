@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ajou.mse.magicaduel.server.controller.dto.BattleResultDto;
+import com.ajou.mse.magicaduel.server.controller.dto.ResultResponseDto;
 import com.ajou.mse.magicaduel.server.controller.dto.SessionUser;
 import com.ajou.mse.magicaduel.server.controller.dto.UserResponseDto;
 import com.ajou.mse.magicaduel.server.domain.user.User;
@@ -25,7 +26,7 @@ public class BattleService {
 	private final HttpSession httpSession;
 
 	@Transactional(rollbackFor = Exception.class)
-	public UserResponseDto result(BattleResultDto requestDto) {
+	public ResultResponseDto start() {
 		SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
 
 		User user = userService.findById(sessionUser.getId());
@@ -33,38 +34,40 @@ public class BattleService {
 		user.lose();
 		user.addScore(BattleResult.LOSE.getScore());
 
+		rankingService.setScore(user.getId(), user.getScore());
+
+		return new ResultResponseDto(true);
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	public UserResponseDto result(BattleResultDto requestDto) {
+		SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
+
+		User user = userService.findById(sessionUser.getId());
+
+		user.cancelLose();
+		user.addScore(BattleResult.LOSE.getScore() * -1);
+
 		switch (requestDto.getResult()) {
-		case WIN:
-			user.win();
-			user.cancelLose();
-			user.addScore(BattleResult.LOSE.getScore() * -1);
-			user.addScore(BattleResult.WIN.getScore());
-			rankingService.setScore(user.getId(), user.getScore());
-			break;
-
-		case LOSE:
-			user.lose();
-			user.cancelLose();
-			user.addScore(BattleResult.LOSE.getScore() * -1);
-			if (user.getScore() < 50) {
-				rankingService.setScore(user.getId(), user.getScore());
+			case WIN:
+				user.win();
+				user.addScore(BattleResult.WIN.getScore());
 				break;
-			}
-			user.addScore(BattleResult.LOSE.getScore());
-			rankingService.setScore(user.getId(), user.getScore());
-			break;
 
-		case DRAW:
-			user.draw();
-			user.cancelLose();
-			user.addScore(BattleResult.LOSE.getScore() * -1);
-			if (user.getScore() < 50) {
-				user.addScore(BattleResult.DRAW.getScore());
-				rankingService.setScore(user.getId(), user.getScore());
+			case LOSE:
+				user.lose();
+				if (user.getScore() >= 50)
+					user.addScore(BattleResult.LOSE.getScore());
 				break;
-			}
-			break;
+
+			case DRAW:
+				user.draw();
+				if (user.getScore() < 50)
+					user.addScore(BattleResult.DRAW.getScore());
+				break;
 		}
+
+		rankingService.setScore(user.getId(), user.getScore());
 
 		int ranking = rankingService.getRanking(user.getId());
 
