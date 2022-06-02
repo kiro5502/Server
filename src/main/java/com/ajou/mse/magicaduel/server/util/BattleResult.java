@@ -7,10 +7,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum BattleResult {
 
-    WIN("WIN", 10),
-    LOSE("LOSE", -8),
-    DRAW("DRAW", 0);
+	WIN("WIN", 5), LOSE("LOSE", -2), DRAW("DRAW", 1);
 
-    private final String type;
-    private final int score;
+	private final String type;
+	private final int score;
 }
