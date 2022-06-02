@@ -1,9 +1,9 @@
 package com.ajou.mse.magicaduel.server.service;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.servlet.http.HttpSession;
 
 import com.ajou.mse.magicaduel.server.controller.dto.BattleResultDto;
 import com.ajou.mse.magicaduel.server.controller.dto.SessionUser;
@@ -18,38 +18,56 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class BattleService {
 
-  private final UserRepository userRepository;
-  private final UserService userService;
-  private final RankingService rankingService;
+	private final UserRepository userRepository;
+	private final UserService userService;
+	private final RankingService rankingService;
 
-  private final HttpSession httpSession;
+	private final HttpSession httpSession;
 
-  @Transactional(rollbackFor = Exception.class)
-  public UserResponseDto result(BattleResultDto requestDto) {
-    SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
+	@Transactional(rollbackFor = Exception.class)
+	public UserResponseDto result(BattleResultDto requestDto) {
+		SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
 
-    User user = userService.findById(sessionUser.getId());
+		User user = userService.findById(sessionUser.getId());
 
-    switch (requestDto.getResult()) {
-      case WIN:
-        user.win();
-        user.addScore(BattleResult.WIN.getScore());
-        rankingService.setScore(user.getId(), user.getScore());
-        break;
+		user.lose();
+		user.addScore(BattleResult.LOSE.getScore());
 
-      case LOSE:
-        user.lose();
-        user.addScore(BattleResult.LOSE.getScore());
-        rankingService.setScore(user.getId(), user.getScore());
-        break;
+		switch (requestDto.getResult()) {
+		case WIN:
+			user.win();
+			user.cancelLose();
+			user.addScore(BattleResult.LOSE.getScore() * -1);
+			user.addScore(BattleResult.WIN.getScore());
+			rankingService.setScore(user.getId(), user.getScore());
+			break;
 
-      case DRAW:
-        user.draw();
-        break;
-    }
+		case LOSE:
+			user.lose();
+			user.cancelLose();
+			user.addScore(BattleResult.LOSE.getScore() * -1);
+			if (user.getScore() < 50) {
+				rankingService.setScore(user.getId(), user.getScore());
+				break;
+			}
+			user.addScore(BattleResult.LOSE.getScore());
+			rankingService.setScore(user.getId(), user.getScore());
+			break;
 
-    int ranking = rankingService.getRanking(user.getId());
+		case DRAW:
+			user.draw();
+			user.cancelLose();
+			user.addScore(BattleResult.LOSE.getScore() * -1);
+			if (user.getScore() < 50) {
+				user.addScore(BattleResult.DRAW.getScore());
+				rankingService.setScore(user.getId(), user.getScore());
+				break;
+			}
+			break;
+		}
 
-    return new UserResponseDto(userRepository.save(user), ranking);
-  }
+		int ranking = rankingService.getRanking(user.getId());
+
+		return new UserResponseDto(userRepository.save(user), ranking);
+	}
 }
