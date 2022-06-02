@@ -8,6 +8,7 @@
   - [Check Duplicate Email](#get---check-duplicate-email)
   - [Check Duplicate Nickname](#get---check-duplicate-nickname)
 - [Battle, 전투](#battle-전투)
+  - [Start](#get---start)
   - [Result](#post---result)
 - [Ranking, 랭킹](#ranking-랭킹)
   - [Leader Board](#get---leader-board)
