@@ -118,6 +118,26 @@
 
 # Battle, 전투
 
+## GET - Start
+
+```
+~/battle/start
+```
+
+전투 시작시 탈주 또는 강제종료를 고려하여 미리 점수를 낮춥니다.
+
+### Parameters
+
+None
+
+### Response
+
+| Key    | Type    | Description |
+| ------ | ------- | ----------- |
+| result | Boolean | 결과        |
+
+<br></br>
+
 ## POST - Result
 
 ```
