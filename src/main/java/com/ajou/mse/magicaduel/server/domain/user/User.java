@@ -80,6 +80,10 @@ public class User extends BaseTimeEntity {
 		this.lose++;
 	}
 
+	public void cancelLose() {
+		this.lose--;
+	}
+
 	public void draw() {
 		this.draw++;
 	}
