@@ -5,6 +5,7 @@
 - [User, 유저 인증](#user-유저-인증)
   - [Sign Up](#post---sign-up)
   - [Sign In](#post---sign-in)
+  - [Sign Out](#post---sign-out)
   - [Check Duplicate Email](#get---check-duplicate-email)
   - [Check Duplicate Nickname](#get---check-duplicate-nickname)
   - [Get Info](#get---get-info)
@@ -71,6 +72,26 @@
 | lose     | int    | 패배        |
 | draw     | int    | 무승부      |
 | ranking  | int    | 랭킹        |
+
+<br></br>
+
+## POST - Sign Out
+
+```
+~/user/sign-out
+```
+
+로그아웃을 진행합니다.
+
+### Parameters
+
+None
+
+### Response
+
+| Key    | Type    | Description        |
+| ------ | ------- | ------------------ |
+| result | Boolean | 회원가입 성공 여부 |
 
 <br></br>
 

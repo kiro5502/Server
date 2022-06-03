@@ -61,6 +61,11 @@ public class UserService {
     return new UserResponseDto(user, ranking);
   }
 
+  public ResultResponseDto signOut() {
+    httpSession.invalidate();
+    return new ResultResponseDto(true);
+  }
+
   public ResultResponseDto checkDuplicateEmail(String email) {
     return new ResultResponseDto(isDuplicateEmail(email));
   }

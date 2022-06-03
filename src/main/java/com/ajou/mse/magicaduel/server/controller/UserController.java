@@ -35,6 +35,11 @@ public class UserController {
     return userService.signIn(requestDto);
   }
 
+  @PostMapping("sign-out")
+  public ResultResponseDto signOut() {
+    return userService.signOut();
+  }
+
   @GetMapping("duplicate-email")
   public ResultResponseDto checkDuplicateEmail(@RequestParam String email) {
     return userService.checkDuplicateEmail(email);
