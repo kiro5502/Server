@@ -7,6 +7,7 @@
   - [Sign In](#post---sign-in)
   - [Check Duplicate Email](#get---check-duplicate-email)
   - [Check Duplicate Nickname](#get---check-duplicate-nickname)
+  - [Get Info](#get---get-info)
 - [Battle, 전투](#battle-전투)
   - [Start](#get---start)
   - [Result](#post---result)
@@ -114,6 +115,32 @@
 | Key    | Type    | Description                      |
 | ------ | ------- | -------------------------------- |
 | result | Boolean | 입력으로 받은 닉네임의 존재 여부 |
+
+<br></br>
+
+## GET - Get Info
+
+```
+~/user/{id}
+```
+
+요청 받은 id 값에 따른 유저의 정보를 반환합니다.
+
+### Parameters
+
+None
+
+### Response
+
+| Key      | Type   | Description |
+| -------- | ------ | ----------- |
+| id       | String | 고유 ID     |
+| nickname | String | 닉네임      |
+| score    | int    | 점수        |
+| win      | int    | 승리        |
+| lose     | int    | 패배        |
+| draw     | int    | 무승부      |
+| ranking  | int    | 랭킹        |
 
 <br></br>
 
