@@ -189,6 +189,8 @@ None
 | ----- | -------------------------------------------------- | ---------------------------- |
 | users | Array\<[UserResponseDto](#userresponsedto-model)\> | 상위 랭킹 유저들의 정보 배열 |
 
+<br></br>
+
 ## GET - Player Ranking
 
 ```
