@@ -1,6 +1,5 @@
 package com.ajou.mse.magicaduel.server.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +18,7 @@ public class BattleController {
 
   private final BattleService battleService;
 
-  @GetMapping("start")
+  @PostMapping("start")
   public ResultResponseDto start() {
     return battleService.start();
   }
