@@ -62,9 +62,8 @@ public class User extends BaseTimeEntity {
 
 	public void addScore(int score) {
 		this.score += score;
-		if (this.score < 0) {
+		if (this.score < 0)
 			this.score = 0;
-		}
 	}
 
 	public void win() {
