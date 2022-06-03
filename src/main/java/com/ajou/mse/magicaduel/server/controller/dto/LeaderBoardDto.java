@@ -9,9 +9,11 @@ import lombok.Getter;
 public class LeaderBoardDto {
 
 	private List<UserResponseDto> users;
+	private long totalCount;
 
 	@Builder
-	public LeaderBoardDto(List<UserResponseDto> users) {
+	public LeaderBoardDto(List<UserResponseDto> users, long totalCount) {
 		this.users = users;
+		this.totalCount = totalCount;
 	}
 }

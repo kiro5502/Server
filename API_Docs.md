@@ -233,9 +233,10 @@ None
 
 ### Response
 
-| Key   | Type                                               | Description                  |
-| ----- | -------------------------------------------------- | ---------------------------- |
-| users | Array\<[UserResponseDto](#userresponsedto-model)\> | 상위 랭킹 유저들의 정보 배열 |
+| Key        | Type                                               | Description                  |
+| ---------- | -------------------------------------------------- | ---------------------------- |
+| users      | Array\<[UserResponseDto](#userresponsedto-model)\> | 상위 랭킹 유저들의 정보 배열 |
+| totalCount | long                                               | 총 유저 수                   |
 
 <br></br>
 

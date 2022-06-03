@@ -54,8 +54,10 @@ public class RankingService {
 
 			users.add(new UserResponseDto(user, ranking++));
 		}
+		
+		long totalCount = redisTemplate.opsForZSet().size(Consts.RANKING_KEY);
 
-		return new LeaderBoardDto(users);
+		return new LeaderBoardDto(users, totalCount);
 	}
 
 	public RankingDto getPlayerRanking(SessionUser sessionUser) {
