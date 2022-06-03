@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ajou.mse.magicaduel.server.annotation.CheckLogin;
 import com.ajou.mse.magicaduel.server.controller.dto.ResultResponseDto;
 import com.ajou.mse.magicaduel.server.controller.dto.UserResponseDto;
 import com.ajou.mse.magicaduel.server.controller.dto.UserSignInDto;
@@ -36,6 +37,7 @@ public class UserController {
   }
 
   @PostMapping("sign-out")
+  @CheckLogin
   public ResultResponseDto signOut() {
     return userService.signOut();
   }

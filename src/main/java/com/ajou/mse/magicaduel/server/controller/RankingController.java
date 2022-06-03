@@ -5,8 +5,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ajou.mse.magicaduel.server.annotation.CheckLogin;
+import com.ajou.mse.magicaduel.server.annotation.LoginUser;
 import com.ajou.mse.magicaduel.server.controller.dto.LeaderBoardDto;
 import com.ajou.mse.magicaduel.server.controller.dto.RankingDto;
+import com.ajou.mse.magicaduel.server.controller.dto.SessionUser;
 import com.ajou.mse.magicaduel.server.service.RankingService;
 
 import lombok.RequiredArgsConstructor;
@@ -24,7 +27,8 @@ public class RankingController {
 	}
 
 	@GetMapping("player-ranking")
-	public RankingDto playerRanking() {
-		return rankingService.getPlayerRanking();
+	@CheckLogin
+	public RankingDto playerRanking(@LoginUser SessionUser sessionUser) {
+		return rankingService.getPlayerRanking(sessionUser);
 	}
 }

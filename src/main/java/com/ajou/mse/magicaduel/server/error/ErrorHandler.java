@@ -3,6 +3,7 @@ package com.ajou.mse.magicaduel.server.error;
 import com.ajou.mse.magicaduel.server.error.exception.DuplicateException;
 import com.ajou.mse.magicaduel.server.error.exception.MismatchException;
 import com.ajou.mse.magicaduel.server.error.exception.NotFoundException;
+import com.ajou.mse.magicaduel.server.error.exception.UnauthorizedException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,6 +28,12 @@ public class ErrorHandler {
   @ResponseStatus(HttpStatus.NOT_FOUND)
   @ExceptionHandler(NotFoundException.class)
   public ErrorResponse handleNotFoundException(NotFoundException e) {
+    return new ErrorResponse(e.getClass().getSimpleName(), e.getMessage());
+  }
+
+  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+  @ExceptionHandler(UnauthorizedException.class)
+  public ErrorResponse handleUnauthorizedException(UnauthorizedException e) {
     return new ErrorResponse(e.getClass().getSimpleName(), e.getMessage());
   }
 }

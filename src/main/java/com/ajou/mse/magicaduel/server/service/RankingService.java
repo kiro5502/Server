@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 public class RankingService {
 
 	private final StringRedisTemplate redisTemplate;
-	private final HttpSession httpSession;
 
 	private final UserRepository userRepository;
 
@@ -61,8 +58,7 @@ public class RankingService {
 		return new LeaderBoardDto(users);
 	}
 
-	public RankingDto getPlayerRanking() {
-		SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
+	public RankingDto getPlayerRanking(SessionUser sessionUser) {
 		return new RankingDto(getRanking(sessionUser.getId()));
 	}
 }

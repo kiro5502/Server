@@ -1,7 +1,5 @@
 package com.ajou.mse.magicaduel.server.service;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,12 +21,8 @@ public class BattleService {
 	private final UserService userService;
 	private final RankingService rankingService;
 
-	private final HttpSession httpSession;
-
 	@Transactional(rollbackFor = Exception.class)
-	public ResultResponseDto start() {
-		SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
-
+	public ResultResponseDto start(SessionUser sessionUser) {
 		User user = userService.findById(sessionUser.getId());
 
 		user.lose();
@@ -40,9 +34,7 @@ public class BattleService {
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public UserResponseDto result(BattleResultDto requestDto) {
-		SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
-
+	public UserResponseDto result(BattleResultDto requestDto, SessionUser sessionUser) {
 		User user = userService.findById(sessionUser.getId());
 
 		user.cancelLose();
