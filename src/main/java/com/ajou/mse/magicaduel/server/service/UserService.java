@@ -69,6 +69,13 @@ public class UserService {
     return new ResultResponseDto(isDuplicateNickname(nickname));
   }
 
+  public UserResponseDto info(long id) {
+    User user = findById(id);
+    int ranking = rankingService.getRanking(user.getId());
+
+    return new UserResponseDto(user, ranking);
+  }
+
   public boolean isDuplicateEmail(String email) {
     return userRepository.findByEmail(email).isPresent();
   }
