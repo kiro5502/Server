@@ -11,6 +11,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.ajou.mse.magicaduel.server.annotation.LoginUser;
 import com.ajou.mse.magicaduel.server.controller.dto.SessionUser;
+import com.ajou.mse.magicaduel.server.util.Consts;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,6 +33,6 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
             NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
-        return httpSession.getAttribute("user");
+        return httpSession.getAttribute(Consts.SESSION_USER);
     }
 }

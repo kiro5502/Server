@@ -16,6 +16,7 @@ import com.ajou.mse.magicaduel.server.domain.user.UserRepository;
 import com.ajou.mse.magicaduel.server.error.exception.DuplicateException;
 import com.ajou.mse.magicaduel.server.error.exception.MismatchException;
 import com.ajou.mse.magicaduel.server.error.exception.NotFoundException;
+import com.ajou.mse.magicaduel.server.util.Consts;
 
 import lombok.RequiredArgsConstructor;
 
@@ -56,7 +57,7 @@ public class UserService {
 
     int ranking = rankingService.getRanking(user.getId());
 
-    httpSession.setAttribute("user", new SessionUser(user));
+    httpSession.setAttribute(Consts.SESSION_USER, new SessionUser(user));
 
     return new UserResponseDto(user, ranking);
   }
