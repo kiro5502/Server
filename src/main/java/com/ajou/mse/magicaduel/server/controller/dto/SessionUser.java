@@ -5,8 +5,10 @@ import java.io.Serializable;
 import com.ajou.mse.magicaduel.server.domain.user.User;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class SessionUser implements Serializable {
 
   private Long id;

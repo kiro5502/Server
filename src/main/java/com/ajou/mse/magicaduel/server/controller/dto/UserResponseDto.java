@@ -4,8 +4,10 @@ import com.ajou.mse.magicaduel.server.domain.user.User;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class UserResponseDto {
 
   private Long id;
