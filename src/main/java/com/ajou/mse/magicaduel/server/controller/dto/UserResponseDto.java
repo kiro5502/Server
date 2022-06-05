@@ -19,13 +19,13 @@ public class UserResponseDto {
   private Integer ranking;
 
   @Builder
-  public UserResponseDto(User entity, int ranking) {
-    this.id = entity.getId();
-    this.nickname = entity.getNickname();
-    this.score = entity.getScore() != null ? entity.getScore() : 0;
-    this.win = entity.getWin() != null ? entity.getWin() : 0;
-    this.lose = entity.getLose() != null ? entity.getLose() : 0;
-    this.draw = entity.getDraw() != null ? entity.getDraw() : 0;
+  public UserResponseDto(User user, int ranking) {
+    this.id = user.getId();
+    this.nickname = user.getNickname();
+    this.score = user.getScore() != null ? user.getScore() : 0;
+    this.win = user.getWin() != null ? user.getWin() : 0;
+    this.lose = user.getLose() != null ? user.getLose() : 0;
+    this.draw = user.getDraw() != null ? user.getDraw() : 0;
     this.ranking = ranking;
   }
 }

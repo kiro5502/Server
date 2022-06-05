@@ -8,7 +8,6 @@ import com.ajou.mse.magicaduel.server.controller.dto.ResultResponseDto;
 import com.ajou.mse.magicaduel.server.controller.dto.SessionUser;
 import com.ajou.mse.magicaduel.server.controller.dto.UserResponseDto;
 import com.ajou.mse.magicaduel.server.domain.user.User;
-import com.ajou.mse.magicaduel.server.domain.user.UserRepository;
 import com.ajou.mse.magicaduel.server.util.BattleResult;
 
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class BattleService {
 
-	private final UserRepository userRepository;
 	private final UserService userService;
 	private final RankingService rankingService;
 
@@ -63,6 +61,6 @@ public class BattleService {
 
 		int ranking = rankingService.getRanking(user.getId());
 
-		return new UserResponseDto(userRepository.save(user), ranking);
+		return new UserResponseDto(user, ranking);
 	}
 }
