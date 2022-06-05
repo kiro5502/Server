@@ -1,5 +1,6 @@
 package com.ajou.mse.magicaduel.server.domain.user;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,8 +18,8 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@DynamicInsert
-@DynamicUpdate
+@DynamicInsert // 변경 감지된 필드만 Insert 쿼리에 반영. @ColumnDefault와 같이 사용
+@DynamicUpdate // 변경 감지된 필드만 Update 쿼리에 반영
 @NoArgsConstructor
 public class User extends BaseTimeEntity {
 
@@ -26,10 +27,13 @@ public class User extends BaseTimeEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(nullable = false)
 	private String email;
 
+	@Column(nullable = false)
 	private String password;
 
+	@Column(nullable = false)
 	private String nickname;
 
 	@ColumnDefault("0")
@@ -54,10 +58,6 @@ public class User extends BaseTimeEntity {
 		this.win = win;
 		this.lose = lose;
 		this.draw = draw;
-	}
-
-	public void update(String nickname) {
-		this.nickname = nickname;
 	}
 
 	public void addScore(int score) {
