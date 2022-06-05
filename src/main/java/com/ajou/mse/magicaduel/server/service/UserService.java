@@ -6,16 +6,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 
-import com.ajou.mse.magicaduel.server.controller.dto.ResultResponseDto;
 import com.ajou.mse.magicaduel.server.controller.dto.SessionUser;
-import com.ajou.mse.magicaduel.server.controller.dto.UserResponseDto;
+import com.ajou.mse.magicaduel.server.controller.dto.UserDto;
 import com.ajou.mse.magicaduel.server.controller.dto.UserSignInDto;
 import com.ajou.mse.magicaduel.server.controller.dto.UserSignUpDto;
 import com.ajou.mse.magicaduel.server.domain.user.User;
 import com.ajou.mse.magicaduel.server.domain.user.UserRepository;
-import com.ajou.mse.magicaduel.server.error.exception.DuplicateException;
 import com.ajou.mse.magicaduel.server.error.exception.MismatchException;
 import com.ajou.mse.magicaduel.server.error.exception.NotFoundException;
+import com.ajou.mse.magicaduel.server.util.BattleResult;
 import com.ajou.mse.magicaduel.server.util.Consts;
 
 import lombok.RequiredArgsConstructor;
@@ -25,61 +24,45 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
   private final UserRepository userRepository;
-  private final RankingService rankingService;
 
   private final PasswordEncoder passwordEncoder;
   private final HttpSession httpSession;
 
+  private final int stdScore = 50;
+
   @Transactional(rollbackFor = Exception.class)
-  public ResultResponseDto signUp(UserSignUpDto requestDto) {
-    // id 중복체크
-    if (isDuplicateEmail(requestDto.getEmail())) {
-      throw new DuplicateException("Duplicated Email");
-    }
-
-    // nickname 중복체크
-    if (isDuplicateNickname(requestDto.getNickname())) {
-      throw new DuplicateException("Duplicated Nickname");
-    }
-
+  public void signUp(UserSignUpDto requestDto) {
     User encryptedUser = encrypt(requestDto);
     userRepository.save(encryptedUser);
-
-    return new ResultResponseDto(true);
   }
 
-  public UserResponseDto signIn(UserSignInDto requestDto) {
+  public UserDto signIn(UserSignInDto requestDto) {
     User user = findByEmail(requestDto.getEmail());
 
     if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
       throw new MismatchException("Password Mismatch");
     }
 
-    int ranking = rankingService.getRanking(user.getId());
-
     httpSession.setAttribute(Consts.SESSION_USER, new SessionUser(user));
 
-    return new UserResponseDto(user, ranking);
+    return new UserDto(user);
   }
 
-  public ResultResponseDto signOut() {
+  public void signOut() {
     httpSession.invalidate();
-    return new ResultResponseDto(true);
   }
 
-  public ResultResponseDto checkDuplicateEmail(String email) {
-    return new ResultResponseDto(isDuplicateEmail(email));
+  public boolean checkDuplicateEmail(String email) {
+    return isDuplicateEmail(email);
   }
 
-  public ResultResponseDto checkDuplicateNickname(String nickname) {
-    return new ResultResponseDto(isDuplicateNickname(nickname));
+  public boolean checkDuplicateNickname(String nickname) {
+    return isDuplicateNickname(nickname);
   }
 
-  public UserResponseDto info(long id) {
+  public UserDto getUserInfo(long id) {
     User user = findById(id);
-    int ranking = rankingService.getRanking(user.getId());
-
-    return new UserResponseDto(user, ranking);
+    return new UserDto(user);
   }
 
   public boolean isDuplicateEmail(String email) {
@@ -99,6 +82,38 @@ public class UserService {
         .build();
 
     return user;
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  public UserDto win(User user) {
+    user.win();
+    user.addScore(BattleResult.WIN.getScore());
+
+    return new UserDto(user);
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  public UserDto lose(User user) {
+    user.lose();
+    if (user.getScore() >= stdScore)
+      user.addScore(BattleResult.LOSE.getScore());
+
+    return new UserDto(user);
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  public UserDto draw(User user) {
+    user.draw();
+    if (user.getScore() < stdScore)
+      user.addScore(BattleResult.DRAW.getScore());
+
+    return new UserDto(user);
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  public void cancelLose(User user, int prevScore) {
+    user.cancelLose();
+    user.addScore(prevScore - user.getScore());
   }
 
   public User findByEmail(String email) {
