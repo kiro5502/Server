@@ -1,7 +1,5 @@
 package com.ajou.mse.magicaduel.server.controller.dto;
 
-import com.ajou.mse.magicaduel.server.domain.user.User;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -19,13 +17,13 @@ public class UserResponseDto {
   private Integer ranking;
 
   @Builder
-  public UserResponseDto(User user, int ranking) {
-    this.id = user.getId();
-    this.nickname = user.getNickname();
-    this.score = user.getScore() != null ? user.getScore() : 0;
-    this.win = user.getWin() != null ? user.getWin() : 0;
-    this.lose = user.getLose() != null ? user.getLose() : 0;
-    this.draw = user.getDraw() != null ? user.getDraw() : 0;
+  public UserResponseDto(UserDto userDto, int ranking) {
+    this.id = userDto.getId();
+    this.nickname = userDto.getNickname();
+    this.score = userDto.getScore() != null ? userDto.getScore() : 0;
+    this.win = userDto.getWin() != null ? userDto.getWin() : 0;
+    this.lose = userDto.getLose() != null ? userDto.getLose() : 0;
+    this.draw = userDto.getDraw() != null ? userDto.getDraw() : 0;
     this.ranking = ranking;
   }
 }
