@@ -1,6 +1,6 @@
 package com.ajou.mse.magicaduel.server.controller.dto;
 
-import com.ajou.mse.magicaduel.server.domain.battleInfo.BattleInfo;
+import com.ajou.mse.magicaduel.server.domain.battleinfo.BattleInfo;
 
 import lombok.Builder;
 import lombok.Getter;

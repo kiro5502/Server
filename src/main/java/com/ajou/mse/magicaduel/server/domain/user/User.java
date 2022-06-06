@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.ajou.mse.magicaduel.server.domain.BaseTimeEntity;
-import com.ajou.mse.magicaduel.server.domain.battleInfo.BattleInfo;
+import com.ajou.mse.magicaduel.server.domain.battleinfo.BattleInfo;
 
 import lombok.Builder;
 import lombok.Getter;

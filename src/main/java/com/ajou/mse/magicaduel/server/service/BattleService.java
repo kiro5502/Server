@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ajou.mse.magicaduel.server.controller.dto.BattleInfoDto;
-import com.ajou.mse.magicaduel.server.domain.battleInfo.BattleInfo;
+import com.ajou.mse.magicaduel.server.domain.battleinfo.BattleInfo;
 import com.ajou.mse.magicaduel.server.domain.user.User;
 import com.ajou.mse.magicaduel.server.domain.user.UserRepository;
 import com.ajou.mse.magicaduel.server.error.exception.NotFoundException;
