@@ -43,7 +43,6 @@ public class RankingController {
 		int ranking = start + 1;
 		for (String id : rankingList) {
 			UserDto userDto = userService.getUserInfo(Long.parseLong(id));
-
 			users.add(new UserResponseDto(userDto, ranking++));
 		}
 

@@ -10,11 +10,12 @@ import com.ajou.mse.magicaduel.server.controller.dto.SessionUser;
 import com.ajou.mse.magicaduel.server.controller.dto.UserDto;
 import com.ajou.mse.magicaduel.server.controller.dto.UserSignInDto;
 import com.ajou.mse.magicaduel.server.controller.dto.UserSignUpDto;
+import com.ajou.mse.magicaduel.server.domain.battleInfo.BattleInfo;
+import com.ajou.mse.magicaduel.server.domain.battleInfo.BattleInfoRepository;
 import com.ajou.mse.magicaduel.server.domain.user.User;
 import com.ajou.mse.magicaduel.server.domain.user.UserRepository;
 import com.ajou.mse.magicaduel.server.error.exception.MismatchException;
 import com.ajou.mse.magicaduel.server.error.exception.NotFoundException;
-import com.ajou.mse.magicaduel.server.util.BattleResult;
 import com.ajou.mse.magicaduel.server.util.Consts;
 
 import lombok.RequiredArgsConstructor;
@@ -24,15 +25,18 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
   private final UserRepository userRepository;
+  private final BattleInfoRepository battleInfoRepository;
 
   private final PasswordEncoder passwordEncoder;
   private final HttpSession httpSession;
 
-  private final int stdScore = 50;
-
   @Transactional(rollbackFor = Exception.class)
   public void signUp(UserSignUpDto requestDto) {
     User encryptedUser = encrypt(requestDto);
+
+    BattleInfo battleInfo = battleInfoRepository.save(new BattleInfo());
+    encryptedUser.updateBattleInfo(battleInfo);
+
     userRepository.save(encryptedUser);
   }
 
@@ -82,38 +86,6 @@ public class UserService {
         .build();
 
     return user;
-  }
-
-  @Transactional(rollbackFor = Exception.class)
-  public UserDto win(User user) {
-    user.win();
-    user.addScore(BattleResult.WIN.getScore());
-
-    return new UserDto(user);
-  }
-
-  @Transactional(rollbackFor = Exception.class)
-  public UserDto lose(User user) {
-    user.lose();
-    if (user.getScore() >= stdScore)
-      user.addScore(BattleResult.LOSE.getScore());
-
-    return new UserDto(user);
-  }
-
-  @Transactional(rollbackFor = Exception.class)
-  public UserDto draw(User user) {
-    user.draw();
-    if (user.getScore() < stdScore)
-      user.addScore(BattleResult.DRAW.getScore());
-
-    return new UserDto(user);
-  }
-
-  @Transactional(rollbackFor = Exception.class)
-  public void cancelLose(User user, int prevScore) {
-    user.cancelLose();
-    user.addScore(prevScore - user.getScore());
   }
 
   public User findByEmail(String email) {

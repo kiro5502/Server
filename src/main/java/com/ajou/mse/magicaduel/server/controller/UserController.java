@@ -51,7 +51,6 @@ public class UserController {
   public UserResponseDto signIn(@RequestBody UserSignInDto requestDto) {
     UserDto userDto = userService.signIn(requestDto);
     int ranking = rankingService.getRanking(userDto.getId());
-
     return new UserResponseDto(userDto, ranking);
   }
 
