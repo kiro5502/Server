@@ -7,11 +7,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ajou.mse.magicaduel.server.annotation.CheckLogin;
 import com.ajou.mse.magicaduel.server.annotation.LoginUser;
+import com.ajou.mse.magicaduel.server.controller.dto.BattleInfoDto;
 import com.ajou.mse.magicaduel.server.controller.dto.BattleResultDto;
 import com.ajou.mse.magicaduel.server.controller.dto.ResultResponseDto;
 import com.ajou.mse.magicaduel.server.controller.dto.SessionUser;
 import com.ajou.mse.magicaduel.server.controller.dto.UserDto;
 import com.ajou.mse.magicaduel.server.controller.dto.UserResponseDto;
+import com.ajou.mse.magicaduel.server.domain.battleInfo.BattleInfo;
 import com.ajou.mse.magicaduel.server.domain.user.User;
 import com.ajou.mse.magicaduel.server.service.BattleService;
 import com.ajou.mse.magicaduel.server.service.RankingService;
@@ -31,12 +33,11 @@ public class BattleController {
   @PostMapping("start")
   @CheckLogin
   public ResultResponseDto start(@LoginUser SessionUser sessionUser) {
-    User user = userService.findById(sessionUser.getId());
+    BattleInfo battleInfo = battleService.findByUserId(sessionUser.getId());
+    battleService.setPrevScore(battleInfo.getScore());
 
-    battleService.setPrevScore(user.getScore());
-
-    UserDto userDto = userService.lose(user);
-    rankingService.setScore(userDto.getId(), userDto.getScore());
+    BattleInfoDto battleInfoDto = battleService.lose(battleInfo);
+    rankingService.setScore(sessionUser.getId(), battleInfoDto.getScore());
 
     return new ResultResponseDto(true);
   }
@@ -45,30 +46,12 @@ public class BattleController {
   @CheckLogin
   public UserResponseDto result(@RequestBody BattleResultDto requestDto, @LoginUser SessionUser sessionUser) {
     User user = userService.findById(sessionUser.getId());
-    int prevScore = battleService.getAndRemovePrevScore();
 
-    userService.cancelLose(user, prevScore);
+    BattleInfoDto battleInfoDto = battleService.result(battleService.findByUser(user), requestDto.getResult());
 
-    UserDto userDto = null;
+    rankingService.setScore(sessionUser.getId(), battleInfoDto.getScore());
 
-    switch (requestDto.getResult()) {
-      case WIN:
-        userDto = userService.win(user);
-        break;
-
-      case LOSE:
-        userDto = userService.lose(user);
-        break;
-
-      case DRAW:
-        userDto = userService.draw(user);
-        break;
-    }
-
-    rankingService.setScore(userDto.getId(), userDto.getScore());
-
-    int ranking = rankingService.getRanking(userDto.getId());
-
-    return new UserResponseDto(userDto, ranking);
+    int ranking = rankingService.getRanking(sessionUser.getId());
+    return new UserResponseDto(new UserDto(user), battleInfoDto, ranking);
   }
 }
