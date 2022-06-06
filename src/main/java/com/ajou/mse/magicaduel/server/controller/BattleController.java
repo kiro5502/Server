@@ -13,7 +13,7 @@ import com.ajou.mse.magicaduel.server.controller.dto.ResultResponseDto;
 import com.ajou.mse.magicaduel.server.controller.dto.SessionUser;
 import com.ajou.mse.magicaduel.server.controller.dto.UserDto;
 import com.ajou.mse.magicaduel.server.controller.dto.UserResponseDto;
-import com.ajou.mse.magicaduel.server.domain.battleInfo.BattleInfo;
+import com.ajou.mse.magicaduel.server.domain.battleinfo.BattleInfo;
 import com.ajou.mse.magicaduel.server.domain.user.User;
 import com.ajou.mse.magicaduel.server.service.BattleService;
 import com.ajou.mse.magicaduel.server.service.RankingService;

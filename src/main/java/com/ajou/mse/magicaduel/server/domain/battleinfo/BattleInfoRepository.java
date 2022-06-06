@@ -1,4 +1,4 @@
-package com.ajou.mse.magicaduel.server.domain.battleInfo;
+package com.ajou.mse.magicaduel.server.domain.battleinfo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
